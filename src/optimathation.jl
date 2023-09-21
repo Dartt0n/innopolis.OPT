@@ -11,4 +11,10 @@ function simplex(c, A, b)
     return simplexSolution(table)
 end
 
+function simplexSolution(table::Matrix{Float64})
+    _, m = size(table)
+
+    return table[1, m]
+end
+
 end # module optimathation
