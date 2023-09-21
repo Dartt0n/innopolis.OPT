@@ -17,4 +17,18 @@ function simplexSolution(table::Matrix{Float64})
     return table[1, m]
 end
 
+function applyPivot(table::Matrix{Float64}, pivot)
+    rows, columns = size(table)
+    
+    i, j = pivot
+    
+    for column in 1:columns
+        table[i, column] /= table[i, j]
+    end
+    
+    for row in 1:rows
+        table[row, j] = 0
+    end
+end
+
 end # module optimathation
