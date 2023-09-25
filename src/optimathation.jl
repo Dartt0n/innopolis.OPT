@@ -1,12 +1,7 @@
 module optimathation
 
 function improvementPossible(table::Matrix{Float64})
-    for i in 1:(size(table, 2) - 1)
-        if (table[1, i] < 0)
-            return true
-        end
-    end
-    return false
+    return !isempty(findall(x -> x < 0, table[1, begin:end-1]))
 end
 
 function simplex(c, A, b)
