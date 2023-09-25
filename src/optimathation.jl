@@ -19,6 +19,9 @@ initialTable(C::Vector{Float64}, A::Matrix{FLoat64}, b::Vector{Float64}) =
         A I(size(A, 1)) b
     ]
 
+improvementPossible(A::Matrix{Float64}) =
+    any(x -> x < 0, A[1, begin:end-1])
+
 simplexSolution(table::Matrix{Float64}) =
     table[1, size(table, 2)]
 
