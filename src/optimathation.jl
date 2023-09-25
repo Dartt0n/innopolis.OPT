@@ -1,8 +1,7 @@
 module optimathation
 
-function improvementPossible(table::Matrix{Float64})
-    return !isempty(findall(x -> x < 0, table[1, begin:end-1]))
-end
+improvementPossible(A::Matrix{Float64}) =
+    any(x -> x < 0, A[1, begin:end-1])
 
 function simplex(c, A, b)
     table = initalTable(c, A, b)
