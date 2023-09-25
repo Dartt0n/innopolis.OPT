@@ -1,5 +1,7 @@
 module optimathation
 
+using LinearAlgebra
+
 function simplex(c, A, b)
     table = initalTable(c, A, b)
 
@@ -11,14 +13,14 @@ function simplex(c, A, b)
     return simplexSolution(table)
 end
 
-function initialTable(C, A, b)
-    hcat(vcat([-C[i] for i=1:size(C,1)]', A), vcat(zeros(1, size(A, 1)), [convert(Float64, i==j) for i=1:size(A, 1), j=1:size(A, 1)]), vcat([0], b))
-end
+initialTable(C::Vector{Float64}, A::Matrix{FLoat64}, b::Vector{Float64}) =
+    [
+        C'.*-1 zeros(size(A, 2))' 0
+        A I(size(A, 1)) b
+    ]
 
-function simplexSolution(table::Matrix{Float64})
-    _, m = size(table)
+simplexSolution(table::Matrix{Float64}) =
+    table[1, size(table, 2)]
 
-    return table[1, m]
-end
 
 end # module optimathation
