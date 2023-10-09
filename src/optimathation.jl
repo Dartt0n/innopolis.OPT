@@ -42,4 +42,34 @@ function applyPivot(table::Matrix{Float64}, pivot::Tuple{Int64,Int64})
     return table
 end
 
+function findPivot(table)
+    min = 0
+    indx = -1
+    for i in range(1, size(table, 2))
+        if table[1, i] < min
+            min = table[1, i]
+            indx = i
+        end
+    end
+
+    if indx == -1
+        return nothing
+    end
+
+    min1 = table[1, size(table, 2)]
+    row = -1
+    for j in range(2, size(table))
+        if  table[j, indx] != 0 && 0 <= table[j, size(table, 2)] / table[j, indx] < min1
+            row = j
+            min1 = table[j, size(table, 2)] / table[j, indx]
+        end
+    end
+    
+    if row == -1
+        return nothing
+    end
+
+    return (row, indx)
+end
+
 end # module optimathation
