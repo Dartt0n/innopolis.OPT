@@ -3,21 +3,27 @@ module optimathation
 using LinearAlgebra
 
 function simplex(c, A, b)
-    table = initalTable(c, A, b)
+    table = initialTable(c, A, b)
 
     while (improvementPossible(table))
         pivot = findPivot(table)
+
+        if pivot === nothing
+            return simplexSolution(table)
+        end
+
         applyPivot(table, pivot)
     end
 
     return simplexSolution(table)
 end
 
-initialTable(C::Vector{Float64}, A::Matrix{FLoat64}, b::Vector{Float64}) =
+initialTable(C::Vector{Float64}, A::Matrix{Float64}, b::Vector{Float64}) =
     [
-        C'.*-1 zeros(size(A, 2))' 0
-        A I(size(A, 1)) b
+        C'.*-1 zeros(1, size(A, 1)) 0 # 1x4 1x3 1x1
+        A I(size(A, 1)) b             # 3x4 3x3 3x1
     ]
+
 
 improvementPossible(A::Matrix{Float64}) =
     any(x -> x < 0, A[1, begin:end-1])
@@ -43,33 +49,17 @@ function applyPivot(table::Matrix{Float64}, pivot::Tuple{Int64,Int64})
 end
 
 function findPivot(table)
-    min = 0
-    indx = -1
-    for i in range(1, size(table, 2))
-        if table[1, i] < min
-            min = table[1, i]
-            indx = i
-        end
-    end
-
-    if indx == -1
+    v, col = findmin(x -> x < 0 ? x : Inf, table[1, :])
+    if v == Inf
         return nothing
     end
 
-    min1 = table[1, size(table, 2)]
-    row = -1
-    for j in range(2, size(table))
-        if  table[j, indx] != 0 && 0 <= table[j, size(table, 2)] / table[j, indx] < min1
-            row = j
-            min1 = table[j, size(table, 2)] / table[j, indx]
-        end
-    end
-    
-    if row == -1
+    v, row = findmin(x -> x > 0 ? x : Inf, table[:, end] ./ table[:, col])
+    if v == Inf
         return nothing
     end
 
-    return (row, indx)
+    return (row, col)
 end
 
 end # module optimathation
