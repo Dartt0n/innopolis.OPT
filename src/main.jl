@@ -9,10 +9,10 @@ using optimathation
 # table = optimathation.simplex(c, A, b)
 # display(table)
 
-c = [3.0; 2.0]
+c = [2.0; 3.0]
 A = [1.0 2.0
-    2.0 3.0
-    3.0 1.0]
+     2.0 3.0
+     3.0 1.0]
 b = [18.0; 42.0; 24.0]
 
 table = optimathation.simplex(c, A, b)

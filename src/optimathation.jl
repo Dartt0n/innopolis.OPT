@@ -7,7 +7,7 @@ function simplex(c, A, b)
     sol_vector_row = [0*i for i=1:size(c, 1)]
     while (improvementPossible(table))
         pivot = findPivot(table, sol_vector_row)
-
+        println(sol_vector_row)
         if pivot === nothing
             return simplexSolution(table, sol_vector_row)
         end
@@ -32,7 +32,11 @@ function simplexSolution(table::Matrix{Float64}, sol_vector_row::Vector{Int64})
     approx = table[1, size(table, 2)]
     solution = [0 for n=1:size(sol_vector_row,1)]
     for i=1:size(sol_vector_row,1)
-        solution[i] = table[sol_vector_row[i], size(table, 2)]
+        if sol_vector_row[i] == 0
+            solution[i] = 0
+        else
+            solution[i] = table[sol_vector_row[i], size(table, 2)]
+        end
     end
 
     return (solution, approx)
