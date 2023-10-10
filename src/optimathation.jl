@@ -7,7 +7,6 @@ function simplex(c, A, b)
     sol_vector_row = [0*i for i=1:size(c, 1)]
     while (improvementPossible(table))
         pivot = findPivot(table, sol_vector_row)
-        println(sol_vector_row)
         if pivot === nothing
             return simplexSolution(table, sol_vector_row)
         end
