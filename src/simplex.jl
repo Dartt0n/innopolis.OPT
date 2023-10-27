@@ -1,4 +1,4 @@
-module optimathation
+module Simplex
 
 using LinearAlgebra
 
