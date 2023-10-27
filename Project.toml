@@ -1,6 +1,12 @@
 name = "optimathation"
 uuid = "73356aa5-953f-4b1d-81e2-cbd63eed7bb4"
-authors = ["PodYapolsky <podyapolskiyaa@gmail.com>", "Dartt0n <>", "", "", ""]
+authors = [
+    "PodYapolsky <podyapolskiyaa@gmail.com>",
+    "Anton Kudryavtsev <a.kudryavtsev@innopolis.university>",
+    "",
+    "",
+    "",
+]
 version = "0.1.0"
 
 [deps]
