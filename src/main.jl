@@ -1,6 +1,6 @@
 include("./InteriorPoint.jl")
 using .InteriorPoint
-
+using Printf
 
 function Base.parse(::Type{Vector{Float64}}, ss::Vector{String})::Vector{Float64}
     return [parse(Float64, x) for x ∈ ss]
@@ -46,5 +46,9 @@ println("Enter ε - required precision:")
 ε = parse(Float64, readline())
 @show ε
 
-println("Solution is:")
-@show interiorPoint(α, A, C, X₀, ε)
+println("Solution steps:")
+solution = round.(interiorPoint(α, A, C, X₀, ε), digits=Int(abs(log10(ε))))
+
+
+@printf "Final solution:"
+@show solution
