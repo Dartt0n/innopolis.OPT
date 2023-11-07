@@ -20,3 +20,9 @@ activate .
 # start the project with environment from terminal
 julia --project=. src/main.jl
 ```
+
+### Testing
+
+```bash
+julia --project=. test/test_interior_point.jl
+```

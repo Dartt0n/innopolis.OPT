@@ -6,10 +6,10 @@ using Printf
 
 
 function interiorPoint(
-    α::Float64,
-    A::Matrix{Float64},
-    C::Vector{Float64},
     X::Vector{Float64},
+    C::Vector{Float64},
+    A::Matrix{Float64},
+    α::Float64,
     ε::Float64
 )
     n = size(X, 1) # get 1st dimension of x
