@@ -14,7 +14,12 @@ println("Enter N - number of variables:")
 N = parse(Int, readline())
 @show N
 
-println("Enter C - vector of coeficients (N✖1):")
+println("Enter X₀ - initial solution (N ✖ 1):")
+strings = [readline() for _ ∈ 1:N]
+X₀ = parse(Vector{Float64}, strings)
+@show X₀
+
+println("Enter C - vector of coeficients (N ✖ 1):")
 strings = [readline() for _ ∈ 1:N]
 C = parse(Vector{Float64}, strings)
 @show C
@@ -23,20 +28,15 @@ println("Enter M - number of constrains:")
 M = parse(Int, readline())
 @show M
 
-println("Enter A - matrix of coeficients (M✖N):")
+println("Enter A - matrix of coeficients (M ✖ N):")
 strings = [readline() for _ ∈ 1:M]
 A = parse(Matrix{Float64}, strings)
 @show A
 
 if size(A) ≠ (M, N)
-    println("Matrix A must have dimensions of M✖N")
+    println("Matrix A must have dimensions of M ✖ N")
     exit(1)
 end
-
-println("Enter X₀ - initial solution (N✖1):")
-strings = [readline() for _ ∈ 1:N]
-X₀ = parse(Vector{Float64}, strings)
-@show X₀
 
 println("Enter α - step size:")
 α = parse(Float64, readline())
@@ -47,7 +47,7 @@ println("Enter ε - required precision:")
 @show ε
 
 println("Solution steps:")
-solution = round.(interiorPoint(α, A, C, X₀, ε), digits=Int(abs(log10(ε))))
+solution = round.(interiorPoint(X₀, C, A, α, ε), digits=Int(abs(log10(ε))))
 
 
 @printf "Final solution:"
