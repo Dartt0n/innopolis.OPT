@@ -13,6 +13,6 @@ using .InteriorPoint
 
     # answer
     Y::Vector{Float64} = vec([0.0 8.0 20.0 0.0001 0.0 96.0])
-
+    
     @test round.(interiorPoint(X, C, A, α, ε), digits=Int(abs(log10(0.0001)))) == Y
 end
