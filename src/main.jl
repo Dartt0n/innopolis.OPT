@@ -2,6 +2,9 @@ include("./Corner.jl")
 using .Corner
 using Printf
 
+include("./vogel.jl")
+using .Vogel
+
 function Base.parse(::Type{Vector{Float64}}, ss::Vector{String})::Vector{Float64}
     return [parse(Float64, x) for x ∈ ss]
 end
@@ -33,3 +36,7 @@ println("Enter D - vector of demand (N ✖ 1):")
 strings = [readline() for _ ∈ 1:N]
 D = parse(Vector{Float64}, strings)
 @show D
+
+# 2. vogel's method
+s = vogel(C, D, S)
+pritnln("Vogel's method answer: $s")
