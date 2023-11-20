@@ -4,25 +4,23 @@ module Corner # North-West cornel method
         Cost::Matrix{Float64},
         Demand::Vector{Float64},
         Supply::Vector{Float64}
-    )::Vector{Tuple{Int,Int,Float64}}
+    )
         row, col = (1, 1)
-        answer = []
+        answer = 0
 
         while (row < size(Cost, 1) && col < size(Cost, 2))
-            min_value = min(Supply[row], Demand[col])
-            append!((row, col, Cost[row, col] * min_value))
-            Supply[row] -= min_value
-            Demand[col] -= min_value
+            answer += Cost[row, col]
 
-            if Supply[row] != 0
+            if Cost[row, col] < Supply[row]
+                Supply[row] -= Demand[col]
                 col += 1
             else
+                Demand[col] -= Supply[row]
                 row += 1
             end
-
         end
 
-        return answer
+
     end
 
 end
