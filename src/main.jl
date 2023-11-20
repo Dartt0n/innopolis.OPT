@@ -1,5 +1,5 @@
-include("./InteriorPoint.jl")
-using .InteriorPoint
+include("./Corner.jl")
+using .Corner
 using Printf
 
 function Base.parse(::Type{Vector{Float64}}, ss::Vector{String})::Vector{Float64}
@@ -10,45 +10,26 @@ function Base.parse(::Type{Matrix{Float64}}, ss::Vector{String})::Matrix{Float64
     return permutedims(hcat([parse(Vector{Float64}, Vector{String}(split(x, " "))) for x ∈ ss]...))
 end
 
-println("Enter N - number of variables:")
+println("Enter N - number of destinations:")
 N = parse(Int, readline())
 @show N
 
-println("Enter X₀ - initial solution (N ✖ 1):")
+println("Enter C - matrix of coeficients (N ✖ N):")
 strings = [readline() for _ ∈ 1:N]
-X₀ = parse(Vector{Float64}, strings)
-@show X₀
-
-println("Enter C - vector of coeficients (N ✖ 1):")
-strings = [readline() for _ ∈ 1:N]
-C = parse(Vector{Float64}, strings)
+C = parse(Matrix{Float64}, strings)
 @show C
 
-println("Enter M - number of constrains:")
-M = parse(Int, readline())
-@show M
-
-println("Enter A - matrix of coeficients (M ✖ N):")
-strings = [readline() for _ ∈ 1:M]
-A = parse(Matrix{Float64}, strings)
-@show A
-
-if size(A) ≠ (M, N)
-    println("Matrix A must have dimensions of M ✖ N")
+if size(A) ≠ (N, N)
+    println("Matrix A must have dimensions of N ✖ N")
     exit(1)
 end
 
-println("Enter α - step size:")
-α = parse(Float64, readline())
-@show α
+println("Enter S - vector of supply (N ✖ 1):")
+strings = [readline() for _ ∈ 1:N]
+S = parse(Vector{Float64}, strings)
+@show S
 
-println("Enter ε - required precision:")
-ε = parse(Float64, readline())
-@show ε
-
-println("Solution steps:")
-solution = round.(interiorPoint(X₀, C, A, α, ε), digits=Int(abs(log10(ε))))
-
-
-@printf "Final solution:"
-@show solution
+println("Enter D - vector of demand (N ✖ 1):")
+strings = [readline() for _ ∈ 1:N]
+D = parse(Vector{Float64}, strings)
+@show D
