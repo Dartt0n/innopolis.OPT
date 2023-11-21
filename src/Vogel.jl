@@ -93,7 +93,7 @@ function vogel(
 
             col = Vector{Float64}([])
             for i in 1:m
-                if x[i, j] == 0.0 && S[i] != 0.0
+                if isnothing(x[i, j]) && S[i] != 0.0
                     push!(col, C[i, j])
                 end
             end
