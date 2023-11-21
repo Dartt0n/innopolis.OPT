@@ -5,14 +5,14 @@ function vogel(
     C::Matrix{Float64},
     D::Vector{Float64},
     S::Vector{Float64}
-)
+)::Matrix{Union{Float64,Nothing}}
     m, n = size(C)
 
     # verify that the dimensions of input matrices match
     @assert length(S) == m && length(D) == n
 
     # initialize the answer matrix
-    x = zeros(m, n)
+    x = Matrix{Union{Float64,Nothing}}(nothing, (m, n))
 
     # step 1: Calculate penalties for each row and column
     row_penalties = [sort(C[i, :])[2] - sort(C[i, :])[1] for i in 1:size(C, 1)]
@@ -29,7 +29,7 @@ function vogel(
             min_val = Inf64
             for i in eachindex(C[max_penalty_row, :])
                 # update value of minimum unused current column 
-                if x[max_penalty_row, i] == 0.0 && C[max_penalty_row, i] < min_val
+                if isnothing(x[max_penalty_row, i]) && C[max_penalty_row, i] < min_val
                     min_val = C[max_penalty_row, i]
                     min_ind = i
                 end
@@ -45,7 +45,7 @@ function vogel(
             min_ind = 0
             min_val = Inf64
             for i in eachindex(C[:, max_penalty_col])
-                if x[i, max_penalty_col] == 0.0 && C[i, max_penalty_col] < min_val
+                if isnothing(x[i, max_penalty_col]) && C[i, max_penalty_col] < min_val
                     min_val = C[i, max_penalty_col]
                     min_ind = i
                 end
@@ -71,7 +71,7 @@ function vogel(
             for j in 1:n
                 # iterating over all values in the column we should avoid such
                 # that have already taken the weight (x[i, j]) or with the row that is already used
-                if x[i, j] == 0.0 && D[j] != 0.0
+                if isnothing(x[i, j]) && D[j] != 0.0
                     push!(row, C[i, j])
                 end
             end
@@ -80,7 +80,7 @@ function vogel(
             if length(sorted_row) > 1
                 row_penalties[i] = sorted_row[2] - sorted_row[1]
             else
-                row_penalties[i] = sorted_row[1]
+                row_penalties[i] = sorted_row[1] # fixme: zero length vector
             end
         end
 
@@ -90,7 +90,7 @@ function vogel(
                 col_penalties[j] = 0.0
                 continue
             end
-            
+
             col = Vector{Float64}([])
             for i in 1:m
                 if x[i, j] == 0.0 && S[i] != 0.0
@@ -112,17 +112,7 @@ function vogel(
         end
     end
 
-    # calculate the sum of the solution
-    s = 0
-    for i in 1:m
-        for j in 1:n
-            if x[i, j] != 0.0
-                s += x[i, j] * C[i, j]
-            end   
-        end
-    end
-
-    return s
+    return x
 end
 
 end  # module
