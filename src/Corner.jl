@@ -1,15 +1,16 @@
 module Corner # North-West cornel method
+export NorthWestCorner
 
 function NorthWestCorner(
     Cost::Matrix{Float64},
     Demand::Vector{Float64},
     Supply::Vector{Float64}
-)::Matrix{Float64}
+)::Matrix{Union{Float64,Nothing}}
     row, col = (1, 1)
 
-    answer = fill(-1.0, size(Cost))
+    answer = Matrix{Union{Float64,Nothing}}(nothing, size(Cost))
 
-    while (row < size(Cost, 1) && col < size(Cost, 2))
+    while (row <= size(Cost, 1) && col <= size(Cost, 2))
         min_value = min(Supply[row], Demand[col])
         answer[row, col] = min_value
 
