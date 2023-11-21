@@ -4,13 +4,15 @@ function NorthWestCorner(
     Cost::Matrix{Float64},
     Demand::Vector{Float64},
     Supply::Vector{Float64}
-)::Vector{Tuple{Int,Int,Float64}}
+)::Matrix{Float64}
     row, col = (1, 1)
-    answer = []
+
+    answer = fill(-1.0, size(Cost))
 
     while (row < size(Cost, 1) && col < size(Cost, 2))
         min_value = min(Supply[row], Demand[col])
-        append!((row, col, Cost[row, col] * min_value))
+        answer[row, col] = min_value
+
         Supply[row] -= min_value
         Demand[col] -= min_value
 
